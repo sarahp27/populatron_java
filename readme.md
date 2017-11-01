@@ -33,7 +33,7 @@ Now it is time for you to refactor this monolith into smaller classes, writing u
 
 1. Isolate the entry point from the application class. No notion command line arguments or console output should leak into the application class itself. If this was turned into a web-based app tomorrow, it should be easy as pie.
 1. Isolate file IO from the app. Disk access is brittle (incorrect paths, disk full, access denied). Refactor file IO into it's own class so it can be mocked.
-1. Re-wire your app and tests to use Google Guice to inject dependencies.
+1. Re-wire your app and tests to use Google Guice to inject dependencies. (Follow their [getting started](https://github.com/google/guice/wiki/GettingStarted) guide for help)
 1. Use mockito to mock and inject your file IO class.
 1. Isolate your CSV parsing logic from your app by refactoring it into a parser that returns an generic list of POJOs. Use reflection to initialize the POJOs.
 1. Isolate your CSV parser from reflection logic and file IO. The parser should only be concerned with parsing.
