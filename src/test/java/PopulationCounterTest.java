@@ -29,7 +29,7 @@ public class PopulationCounterTest {
         // Assert
         System.out.flush();
         String output = baos.toString();
-        assertEquals("Population counter should return correct total", expected, output);
+        assertEquals(expected, output, "Population counter should return correct total");
 
         // Teardown
         System.setOut(old);
