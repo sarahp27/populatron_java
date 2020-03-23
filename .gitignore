@@ -6,3 +6,10 @@ build/
 *.ipr
 *.iws
 *.iml
+
+# Vscode plugin generated
+.classpath
+.project
+.settings/
+.vscode/
+bin/
