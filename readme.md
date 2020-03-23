@@ -9,7 +9,6 @@
 - Isolate application from entry point 
 - Use mockito to mock classes
 - Use behavior-based and state-based testing techniques
-- Use Guice to inject dependencies
 
 ## Rationale
 
@@ -33,7 +32,6 @@ Now it is time for you to refactor this monolith into smaller classes, writing u
 
 1. Isolate the entry point from the application class. No notion command line arguments or console output should leak into the application class itself. If this was turned into a web-based app tomorrow, it should be easy as pie.
 1. Isolate file IO from the app. Disk access is brittle (incorrect paths, disk full, access denied). Refactor file IO into it's own class so it can be mocked.
-1. Re-wire your app and tests to use Google Guice to inject dependencies. (Follow their [getting started](https://github.com/google/guice/wiki/GettingStarted) guide for help)
 1. Use mockito to mock and inject your file IO class.
 1. Isolate your CSV parsing logic from your app by refactoring it into a parser that returns an generic list of POJOs. Use reflection to initialize the POJOs.
 1. Isolate your CSV parser from reflection logic and file IO. The parser should only be concerned with parsing.
@@ -44,7 +42,7 @@ Below are some questions you can ask yourself to determine if your code is TDD c
 
 1. Do your classes communicate by passing messages? Or are there deep seated dependencies leaking between them? A good way to determine this is to look at namespaces. Is `java.lang.reflect` imported into any files outside of your reflection helpers? Does `java.nio` appear outside of you file helpers? If so, you probably need to refactor.
 1. Are any of your methods longer than 5-10 lines max? Do they do more than 1 thing? If so, you probably need to break them up into smaller methods.
-1. Do you use the `new` keyword outside of dedicated, injectable factory classes? If so, you probably can't inject them and you need to refactor.
+1. Do you use the `new` keyword outside of dedicated, injectable factory classes (eg. inside your constructor or when initializing fields)? If so, you probably can't inject them and you need to refactor.
 1. Are your tests reliant on data that was in the file? If so, you need to alter your code to mock the appropriate classes so that your tests are in charge of the data being processed. Pure unit tests of a CSV reader should involve just a few lines with a few columns.
 1. Do your tests use real models, or did you make deliberately simplified models to test with? Unit tests should use simplified data and models.
 1. If you set a breakpoint in the constructor of all objects, and you run your unit test, does more than one breakpoint get hit? If so, you aren't mocking sufficiantly. 
@@ -56,6 +54,7 @@ Remember these questions, because they apply to all code, not just the code you 
 
 1. Write a pure unit test for your file IO module using PowerMock to mock the JDK IO classes.
 1. Refactor all your tests to use behavior based testing and mock all dependencies.
+1. Re-wire your app and tests to use Google Guice to inject dependencies. (Follow their [getting started](https://github.com/google/guice/wiki/GettingStarted) guide for help)
 
 ## Final note
 
