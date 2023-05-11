@@ -3,6 +3,8 @@
  */
 
 import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -33,5 +35,38 @@ public class PopulationCounterTest {
 
         // Teardown
         System.setOut(old);
+
+
+    @Test
+    public void totalWorldPop() throws IOException {
+    String testFilePath = "test_population_data.csv";
+    List<String> testDataLines = Arrays.asList(
+                "City,State,Country,Continent,Population",
+                "New York,New York,USA,North America,8623000",
+                "Los Angeles,California,USA,North America,3994000",
+                "Chicago,Illinois,USA,North America,2719000");
+        Files.write(Paths.get(testFilePath), testDataLines, StandardCharsets.ISO_8859_1);
+
+        
+        List<String> testPopData = Files.readAllLines(Paths.get(testFilePath), StandardCharsets.ISO_8859_1);
+        ParseData parser = new ParseData(testPopData);
+        int totalPop = parser.sum(parser.getPopData());
+
+        assertEquals(49997236, totalPop);
+
+        Files.deleteIfExists(Paths.get(testFilePath));
+    }
+    
+    @Test
+    public void parsingLines() {
+        String line = "New York,United States,North America,8398748";
+        PopData expected = new PopData("New York", "United States", "North America",
+            8398748L);
+    
+        PopData actual = PopData.parseFromLine(line);
+    
+        assertEquals(expected.getPopData(), actual.getPopData());
+    }
+    
     }
 }
