@@ -12,14 +12,18 @@ public class ParseData{
                 .map(line -> line.split(","))
                 .map(parts -> parts[4])
                 .collect(Collectors.toList());
+
+        totalPopulation = sum(data);     
     }
 
     public List<String> getPopData() {
         return popText;
     }
   
-    public static sum(List<String> data){
-        totalPopulation = data.stream()
+
+    //calculate sum of pop
+    public static int sum(List<String> data){
+        int totalPopulation = data.stream()
                     .skip(1)
                     .mapToInt(str -> {
                         try {
@@ -30,6 +34,6 @@ public class ParseData{
                     })
                     .sum();
                 
-                    return totalPopulation;
-        }
+        return totalPopulation;
+    }
 }
